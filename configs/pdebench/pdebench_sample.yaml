@@ -1,0 +1,50 @@
+# path:
+exp_name: '11-07-02STDiT_initial5frame5_learnsigma_aug4000_correctnorm_fromscratch'
+ckpt_name: '0300000'
+# ckpt_name: 'model_last'
+sample_name: 'ddimfp32step1000'
+ckpt: 
+# save_video_path: "/storage/panjiashu/EXPERIMENTS/sample_videos" 
+
+# dataset
+dataset: "pdebench"
+filename: 
+normalize: True
+use_spatial_sample: True # important 
+use_coordinates: False
+local_batch_size: 50
+num_workers: 8
+
+# sample config:
+sample_method: 'ddim' # choices=['direct_predict', 'ddpm', 'ddim']
+extras: 2 # [1, 2] 1 unconditional generation, 2 equation-conditional generation
+embed_weights: False
+num_classes: 1 # 你只关心第一个数据集上的性能，所以不会设置一个filename的列表后让程序自己判断方程个数，而是在推理时直接指定模型用到的方程个数
+seed: 42
+num_sample_rounds: 1
+num_frames: 20 # 初始条件 +（多次）预测的帧数
+num_initial_steps: 5 # condition on的步数
+num_future_steps: 5 # 模型一次预测的步数
+trace_trajectory: False # 谨慎在sample_rounds > 1时使用，单个轨迹文件大小有1GB
+num_sampling_steps: 1000
+cfg_scale: 1.
+negative_name:
+
+# model config: 
+model: STDiT-S/2
+initial_dropout_prob: 0.0
+equation_dropout_prob: 0.0
+learn_sigma: True
+pred_xstart: True
+image_size: 256 # choices=[256, 512]
+frame_interval: 1
+fixed_spatial: False
+attention_bias: True
+
+# model speedup
+use_fp16: False
+use_compile: False
+
+# ddp sample config
+per_proc_batch_size: 2
+num_fvd_samples: 2048

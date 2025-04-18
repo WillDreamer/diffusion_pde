@@ -1,0 +1,57 @@
+exp_name: 'STDiT_initial4_frame4'
+resume_from_checkpoint: False
+ckpt_name: 'STDiT_initial5frame5_learnsigma_aug4000'
+
+# dataset
+data_path: "/local2/shared_data/DBench_data/PDEBench/"
+dataset: "pdebench"
+filename: [
+  # "2D_CFD_Rand_M1.0_Eta1e-08_Zeta1e-08_periodic_512_Train.hdf5",
+  "2D_CFD_Turb_M0.1_Eta1e-08_Zeta1e-08_periodic_512_Train.hdf5",
+  # "2D_CFD_Rand_M1.0_Eta0.01_Zeta0.01_periodic_128_Train.hdf5",
+  # "2D_CFD_Rand_M0.1_Eta0.01_Zeta0.01_periodic_128_Train.hdf5",
+  ]
+normalize: True
+num_initial_steps: 4
+num_future_steps: 4
+use_spatial_sample: True
+# num_frames: 10 # total frames including initial condition and future frames to predict, no use in training
+use_coordinates: False
+
+# save and load
+save_dir: "/home/whx/diffusion_pde/ckpt"
+pretrained:
+
+# model config: 
+model: STDiT-S/2
+initial_dropout_prob: 0.0
+equation_dropout_prob: 0.0
+image_size: 128 # choices=[256, 512]
+frame_interval: 1
+fixed_spatial: False
+attention_bias: True
+learn_sigma: True # important
+pred_xstart: True
+direct_predict: False
+extras: 2 # [1, 2] 1 unconditional generation, 2 class-conditional generation
+embed_weights: False
+
+# train config:
+save_ceph: True # important
+learning_rate: 1e-4
+ckpt_every: 50000
+clip_max_norm: 0.1
+start_clip_iter: 20000
+local_batch_size: 5 # important
+max_train_steps: 1000000
+global_seed: 3407
+num_workers: 8
+log_every: 100
+lr_warmup_steps: 0
+gradient_accumulation_steps: 1 # TODO
+
+# low VRAM and speed up training
+use_compile: False
+mixed_precision: False
+enable_xformers_memory_efficient_attention: False
+gradient_checkpointing: False

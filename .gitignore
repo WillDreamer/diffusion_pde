@@ -1,0 +1,14 @@
+.vscode
+*.npy
+trail_log
+preprocess
+results
+results_img
+sample_videos
+log/
+ckpt/
+
+
+__pycache__/
+*.py[cod]
+*$py.class
