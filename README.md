@@ -123,7 +123,7 @@ Latte models. To launch Latte (256x256) training with `N` GPUs on the FaceForens
 :
 
 ```bash
-torchrun --nnodes=1 --nproc_per_node=N train.py --config ./configs/ffs/ffs_train.yaml
+torchrun --nnodes=1 --nproc_per_node=N train.py --config ./configs/pde_train.yaml
 ```
 
 or If you have a cluster that uses slurm, you can also train Latte's model using the following scripts:
